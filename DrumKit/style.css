@@ -1,0 +1,30 @@
+.btns{
+    display : flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.btn{
+    align-content: center;
+    text-align: center;
+    border : 1px solid black;
+    border-radius: 15%;
+    background-color: rgba(233, 56, 233, 0.281);
+    width: 50px;
+    height: 50px;
+    margin:10px;
+    transition: 70ms;
+}
+
+.active{
+    transform: scale(1.2);
+    background-color: rgb(233, 56, 233);
+    box-shadow: 1px 1px 1px black;
+}
+
+.btn:hover{
+    transform: scale(1.1);
+    background-color: rgba(233, 56, 233, .75);
+}
+
