@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html,body{
+            margin:0px;
+            width: 100%;
+            height: 100%;
+        }
+        body{
+            background-image:  linear-gradient(blue,cyan,turquoise);
+            display:flex;
+            justify-content: center;
+        }
+        .clockBorder{
+            margin-top: 50px;
+            height : 500px;
+            width : 500px;
+            border-radius: 50%;
+            border: 20px solid white;
+            display:flex;
+            position:relative;
+        }
+        .hand{
+            margin-left:50%;
+            margin-top:50%; 
+            position:absolute;
+            transform:translate(0,-50%);
+            transform-origin: 0;
+            transition-duration:  .6s;
+            transition-timing-function: cubic-bezier(0.075, 1   , 0.165, 1);
+
+        }
+        .second{
+            background-color: red;
+            width:225px;
+            height:5px; 
+        }
+        .minute{
+            background-color: black;
+            width:200px;
+            height:6px;
+        }
+        .hour{
+            background-color: black;
+            width:125px;
+            height:10px;
+        }
+    </style>
+</head>
+    <body>
+        <div class="clockBorder">
+            <span class="minute hand"> </span>
+            <span class="hour hand"></span>
+            <span class="second hand"></span>
+            
+        </div>
+    </body>
+</html>
+
+<script>
+    //Get Hands
+    var secondHand = document.querySelector('.second')
+    var minuteHand = document.querySelector('.minute')
+    var hourHand = document.querySelector('.hour')
+    
+    //Set initial date
+    time = new Date();
+    secondHand.style.transform = `rotate(${getRotationDegrees(time.getSeconds() )}deg)`
+    minuteHand.style.transform = `rotate(${getRotationDegrees(time.getMinutes() )}deg)`
+    hourHand.style.transform = `rotate(${((time.getHours()/12)*360)-90}deg)`
+
+    //Function to get rotation of hand
+    function getRotationDegrees(timeUnits){
+        return (timeUnits * 6)-90
+    }
+
+    //Function to update rotations
+    function updateHands(){
+        time = new Date();
+        seconds = time.getSeconds();
+        secondHand.style.transform = `rotate(${getRotationDegrees(seconds )}deg)`
+        if(seconds==0){
+            minuteHand.style.transform = `rotate(${getRotationDegrees(time.getMinutes() )}deg)`
+            if(time.getMinutes() == 0)      hourHand.style.transform = `rotate(${((time.getHours()/12)*360)-90}deg)`
+        } 
+    }
+    setInterval(updateHands,1000)
+</script>
