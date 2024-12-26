@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .search-form {
+            max-width: 400px;
+            margin: 50px auto;
+        }
+        .suggestions{
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+        .suggestions li{
+            justify-content: space-between;
+            text-transform: capitalize;
+            list-style: none;
+            margin:0;
+            display:flex;
+        }
+        
+        .suggestions li:nth-child(even){
+            background-color: #A0B2BB;
+        }
+        .suggestions LI:nth-child(odd){
+            background-color: #B7C5CC;
+        }
+        .suggestions li:hover{
+            background-color : #889FAA;
+        }
+        .hl{
+            background: #ffc600;
+        }
+    </style>
+</head>
+    <body>
+        <form class = "search-form">
+            <input type = "text" class = "searchBox">
+            <ul class = "suggestions">
+                <li> Start Typing for suggestions</li>
+            </ul>
+        </form>
+        <script>
+            const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+            const cities = [];
+            fetch(endpoint)
+                .then(blob => blob.json()
+                .then(rawData => cities.push(...rawData)));
+            console.log(cities)
+    
+            function findMatches(match,cities){
+                return cities.filter(place =>{
+                    const regex = new RegExp(match,'gi');
+                    return place.city.match(regex) || place.state.match(regex)
+                })
+            }
+            
+            function displayMatches(){
+                if(this.value == ''){
+                suggestions.innerHTML = `<li> Start Typing for suggestions</li>`;
+                return;
+                }
+                else{
+                
+                let ary = findMatches(this.value,cities)
+                html  = ary.map(place => {
+                    const regex = new RegExp(this.value,'gi');
+                    const cityName = place.city.replace(regex,`<span class="hl">${this.value}</span>`)
+                    const stateName = place.state.replace(regex,`<span class="hl">${this.value}</span>`)
+                    return `<li><span>${cityName},${stateName}</span></li>`}).join('');
+                }
+                suggestions.innerHTML=html;
+            }
+    
+    
+    
+            const searchBox = document.querySelector(".searchBox");
+            const suggestions = document.querySelector(".suggestions");
+            console.log(searchBox)
+            searchBox.addEventListener("input", displayMatches);
+    
+        </script>
+    </body>
+</html>
